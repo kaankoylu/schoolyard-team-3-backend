@@ -14,12 +14,18 @@ return [
     | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
     |
     */
-
-    'paths' => ['*'],
+    'paths' => [
+        'api/*',
+        'login',
+        'logout',
+        'sanctum/csrf-cookie',
+    ],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:5174')],
+    'allowed_origins' => [
+        'http://localhost:5174',
+    ],
 
     'allowed_origins_patterns' => [],
 
