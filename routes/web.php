@@ -11,16 +11,17 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-Route::post('/login', function (Request $request) {
-    $credentials = $request->only('email', 'password');
+// Route::post('/login', function (Request $request) {
+//     $credentials = $request->only('email', 'password');
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        return response()->json([
-            'message' => 'Login successful',
-            'user' => Auth::user(),
-        ]);
-    }
+//     if (Auth::attempt($credentials)) {
+//         $request->session()->regenerate();
+//         return response()->json([
+//             'message' => 'Login successful',
+//             'user' => Auth::user(),
+//         ]);
+//     }
 
-    return response()->json(['message' => 'Login failed'], 401);
-});
+//     return response()->json(['message' => 'Login failed'], 401);
+// });
+//PUTTING THIS ONE TEMPRORY NON FUNCTIONAL. 
