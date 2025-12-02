@@ -3,13 +3,20 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DesignController;
 
-
+// PROTECTED route for current authenticated user
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// AUTH routes
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth:sanctum');
+
+// === DESIGN ROUTES ===
+// (currently open, later you can protect with auth:sanctum)
+
+Route::post('/designs', [DesignController::class, 'store']);
+Route::get('/designs/{design}', [DesignController::class, 'show']);
