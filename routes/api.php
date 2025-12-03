@@ -28,3 +28,4 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 //
 Route::post('/designs', [DesignController::class, 'store']);
 Route::get('/designs/{design}', [DesignController::class, 'show']);
+Route::get('/designs', [DesignController::class, 'index']);
