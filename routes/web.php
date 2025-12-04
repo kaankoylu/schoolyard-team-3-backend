@@ -24,4 +24,33 @@ require __DIR__.'/auth.php';
 
 //     return response()->json(['message' => 'Login failed'], 401);
 // });
-//PUTTING THIS ONE TEMPRORY NON FUNCTIONAL. 
+//PUTTING THIS ONE TEMPRORY NON FUNCTIONAL.
+
+// Temporary "bypass login"
+Route::post('/login', function (Request $request) {
+    $role = $request->input('role');
+
+    $urls = [
+        'teacher' => 'http://localhost:5174/dashboard/teacher',
+        'student' => 'http://localhost:5174/dashboard/student',
+        'admin'   => 'http://localhost:5174/dashboard/admin',
+    ];
+
+    if (!isset($urls[$role])) {
+        return response()->json(['error' => 'Invalid role'], 400);
+    }
+
+    return response()->json(['redirect' => $urls[$role]]);
+});
+
+Route::get('/dashboard/teacher', function () {
+    return "Teacher Dashboard";
+});
+
+Route::get('/dashboard/student', function () {
+    return "Student Dashboard";
+});
+
+Route::get('/dashboard/admin', function () {
+    return "Admin Dashboard";
+});
