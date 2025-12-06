@@ -22,6 +22,7 @@ class Design extends Model
         'placed_assets',
         'layout_id',
         'user_id',
+         'feedback',
     ];
 
     protected $casts = [

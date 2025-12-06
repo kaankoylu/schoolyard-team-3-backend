@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DesignController;
-
+use App\Http\Controllers\Api\AssetController;
 // ---- Simple connectivity test ----
 Route::get('/ping', function () {
     return response()->json(['message' => 'pong']);
@@ -29,3 +29,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::post('/designs', [DesignController::class, 'store']);
 Route::get('/designs/{design}', [DesignController::class, 'show']);
 Route::get('/designs', [DesignController::class, 'index']);
+Route::post('/designs/{id}/feedback', [DesignController::class, 'storeFeedback']);
+Route::get('/assets', [AssetController::class, 'index']);
+Route::post('/assets', [AssetController::class, 'store']); // file upload + save
+Route::patch('/assets/{asset}', [AssetController::class, 'update']); // 🔹 toggle availability

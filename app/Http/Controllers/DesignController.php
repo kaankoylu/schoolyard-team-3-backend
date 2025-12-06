@@ -25,7 +25,8 @@ class DesignController extends Controller
             'backgroundImage' => 'nullable|string',
             'placedAssets' => 'required|array',
             'placedAssets.*.instanceId' => 'required|integer',
-            'placedAssets.*.assetId' => 'required|string',
+            'placedAssets.*.assetId' => 'required|integer|exists:assets,id',
+
             'placedAssets.*.label' => 'required|string',
             'placedAssets.*.row' => 'required|integer|min:0',
             'placedAssets.*.col' => 'required|integer|min:0',
@@ -53,4 +54,21 @@ class DesignController extends Controller
     {
         return response()->json($design);
     }
+
+    public function storeFeedback(Request $request, $id)
+    {
+        $design = Design::findOrFail($id);
+
+        $design->feedback = $request->input('text');
+        $design->save();
+
+        return response()->json([
+            'message' => 'Feedback saved',
+            'feedback' => $design->feedback
+        ]);
+    }
+
+
+
+
 }
