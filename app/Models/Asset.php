@@ -9,14 +9,12 @@ class Asset extends Model
 {
     use HasFactory;
 
-    protected $table = 'assets';
-
     protected $fillable = [
         'slug',
         'label',
         'image_url',
         'width',
         'height',
-            'is_available',
+        'is_available',
     ];
 }

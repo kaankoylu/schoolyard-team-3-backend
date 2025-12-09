@@ -32,6 +32,12 @@ Route::post('/designs', [DesignController::class, 'store']);
 Route::get('/designs/{design}', [DesignController::class, 'show']);
 Route::get('/designs', [DesignController::class, 'index']);
 Route::post('/designs/{id}/feedback', [DesignController::class, 'storeFeedback']);
+
+
+
+// ASSET CRUD
 Route::get('/assets', [AssetController::class, 'index']);
-Route::post('/assets', [AssetController::class, 'store']); // file upload + save
-Route::patch('/assets/{asset}', [AssetController::class, 'update']); // 🔹 toggle availability
+Route::post('/assets', [AssetController::class, 'store']);
+Route::get('/assets/{asset}', [AssetController::class, 'show']);
+Route::patch('/assets/{asset}', [AssetController::class, 'update']);
+Route::delete('/assets/{asset}', [AssetController::class, 'destroy']);
