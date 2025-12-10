@@ -15,10 +15,16 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): Response
     {
+        // This does the actual Auth::attempt(...) etc.
         $request->authenticate();
 
-        $request->session()->regenerate();
+        // On "normal" web routes there is a session; on /api/login there isn't.
+        // Avoid "Session store not set on request" by only touching it if present.
+        if ($request->hasSession()) {
+            $request->session()->regenerate();
+        }
 
+        // For API usage we just return 204 No Content on success.
         return response()->noContent();
     }
 
@@ -29,9 +35,11 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        // Again: only touch the session if the middleware created one.
+        if ($request->hasSession()) {
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
 
         return response()->noContent();
     }
