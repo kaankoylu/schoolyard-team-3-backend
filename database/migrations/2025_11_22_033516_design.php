@@ -6,25 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('design', function (Blueprint $table) {
             $table->id();
-            $table->string('design_picture');
-            $table->unsignedBigInteger('layout_id');
-            $table->unsignedBigInteger('user_id');
 
+            // Full design structure
+            $table->integer('rows');
+            $table->integer('cols');
+            $table->string('background_image')->nullable();
+            $table->json('placed_assets');
+
+            // additional metadata
+            $table->unsignedBigInteger('layout_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('deign');
+        Schema::dropIfExists('design');
     }
 };

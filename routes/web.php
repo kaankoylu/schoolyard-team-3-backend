@@ -1,26 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
-
+// ---- Web routes go here ----
+// If you want a homepage:
 Route::get('/', function () {
-    return ['Laravel' => app()->version()];
+    return view('welcome');
 });
 
+// Breeze auth routes (keep if Breeze installed)
 require __DIR__.'/auth.php';
 
-Route::post('/login', function (Request $request) {
-    $credentials = $request->only('email', 'password');
-
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        return response()->json([
-            'message' => 'Login successful',
-            'user' => Auth::user(),
-        ]);
-    }
-
-    return response()->json(['message' => 'Login failed'], 401);
-});
+// NOTE:
+// DO NOT put any /api/... routes here
+// All API requests must go into routes/api.php
