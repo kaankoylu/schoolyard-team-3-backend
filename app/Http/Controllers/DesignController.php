@@ -17,38 +17,43 @@ class DesignController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // validate exactly what your Svelte grid sends
-        $data = $request->validate([
-            'rows' => 'required|integer|min:1',
-            'cols' => 'required|integer|min:1',
-            'backgroundImage' => 'nullable|string',
-            'placedAssets' => 'required|array',
-            'placedAssets.*.instanceId' => 'required|integer',
-            'placedAssets.*.assetId' => 'required|integer|exists:assets,id',
+{
+    $data = $request->validate([
+        'rows' => 'required|integer|min:1',
+        'cols' => 'required|integer|min:1',
+        'backgroundImage' => 'nullable|string',
 
-            'placedAssets.*.label' => 'required|string',
-            'placedAssets.*.row' => 'required|integer|min:0',
-            'placedAssets.*.col' => 'required|integer|min:0',
-            'placedAssets.*.width' => 'required|integer|min:1',
-            'placedAssets.*.height' => 'required|integer|min:1',
-            'placedAssets.*.rotation' => 'required|integer',
-        ]);
+        'class_id' => 'nullable|integer|exists:classes,id',
+        'student_name' => 'nullable|string|max:255',
 
-        // adapt the field names to match your migration
-        $design = Design::create([
-            'rows' => $data['rows'],
-            'cols' => $data['cols'],
-            'background_image' => $data['backgroundImage'] ?? null,
-            'placed_assets' => $data['placedAssets'],
-        ]);
+        'placedAssets' => 'required|array',
+        'placedAssets.*.instanceId' => 'required|integer',
+        'placedAssets.*.assetId' => 'required|integer|exists:assets,id',
+        'placedAssets.*.label' => 'required|string',
+        'placedAssets.*.row' => 'required|integer|min:0',
+        'placedAssets.*.col' => 'required|integer|min:0',
+        'placedAssets.*.width' => 'required|integer|min:1',
+        'placedAssets.*.height' => 'required|integer|min:1',
+        'placedAssets.*.rotation' => 'required|integer',
+    ]);
 
-        return response()->json([
-            'success' => true,
-            'id' => $design->id,
-            'design' => $design,
-        ], 201);
-    }
+    $design = Design::create([
+        'rows' => $data['rows'],
+        'cols' => $data['cols'],
+        'background_image' => $data['backgroundImage'] ?? null,
+        'placed_assets' => $data['placedAssets'],
+
+        'class_id' => $data['class_id'] ?? null,
+        'student_name' => $data['student_name'] ?? null,
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'id' => $design->id,
+        'design' => $design,
+    ], 201);
+}
+
 
     public function show(Design $design)
     {

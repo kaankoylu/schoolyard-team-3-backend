@@ -20,12 +20,15 @@ class Design extends Model
         'cols',
         'background_image',
         'placed_assets',
+        'class_id',
+        'student_name',
+        'feedback',
         'layout_id',
         'user_id',
-         'feedback',
     ];
 
     protected $casts = [
         'placed_assets' => 'array',
     ];
+
 }
