@@ -8,43 +8,31 @@ use Illuminate\Http\Request;
 
 class ClassController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $user = $request->user();
-
-        $classes = SchoolClass::where('teacher_id', $user->id)
-            ->with(['activeCode'])
-            ->orderBy('name')
-            ->get();
-
-        return response()->json($classes);
+        return response()->json(
+            SchoolClass::with('activeCode')->orderBy('name')->get()
+        );
     }
 
     public function store(Request $request)
     {
-        $user = $request->user();
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
+        // TEMP: teacher_id nullable or hardcoded (see migration note below)
         $class = SchoolClass::create([
-            'teacher_id' => $user->id,
+            'teacher_id' => 1, // TEMP
             'name' => trim($validated['name']),
         ]);
 
-        $class->load('activeCode');
-
-        return response()->json($class, 201);
+        return response()->json($class->load('activeCode'), 201);
     }
 
-    public function destroy(Request $request, SchoolClass $class)
+    public function destroy(SchoolClass $class)
     {
-        $user = $request->user();
-        abort_unless($class->teacher_id === $user->id, 403);
-
         $class->delete();
-
         return response()->json(['message' => 'Class deleted']);
     }
 }

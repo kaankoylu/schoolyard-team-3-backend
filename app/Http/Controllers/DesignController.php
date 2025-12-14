@@ -7,57 +7,60 @@ use Illuminate\Http\Request;
 
 class DesignController extends Controller
 {
-
     public function index()
     {
-        // You can add pagination later; for now return all.
         return response()->json(
-            Design::orderBy('id', 'desc')->get()
+            Design::with('schoolClass')->orderBy('id', 'desc')->get()
         );
     }
 
     public function store(Request $request)
-{
-    $data = $request->validate([
-        'rows' => 'required|integer|min:1',
-        'cols' => 'required|integer|min:1',
-        'backgroundImage' => 'nullable|string',
+    {
+        $data = $request->validate([
+            'rows' => 'required|integer|min:1',
+            'cols' => 'required|integer|min:1',
+            'backgroundImage' => 'nullable|string',
 
-        'class_id' => 'nullable|integer|exists:classes,id',
-        'student_name' => 'nullable|string|max:255',
+            // ✅ matches your SchoolClass model table = 'classes'
+            'class_id' => 'nullable|integer|exists:classes,id',
+            'student_name' => 'nullable|string|max:255',
 
-        'placedAssets' => 'required|array',
-        'placedAssets.*.instanceId' => 'required|integer',
-        'placedAssets.*.assetId' => 'required|integer|exists:assets,id',
-        'placedAssets.*.label' => 'required|string',
-        'placedAssets.*.row' => 'required|integer|min:0',
-        'placedAssets.*.col' => 'required|integer|min:0',
-        'placedAssets.*.width' => 'required|integer|min:1',
-        'placedAssets.*.height' => 'required|integer|min:1',
-        'placedAssets.*.rotation' => 'required|integer',
-    ]);
+            'placedAssets' => 'required|array',
+            'placedAssets.*.instanceId' => 'required|integer',
+            'placedAssets.*.assetId' => 'required|integer|exists:assets,id',
+            'placedAssets.*.label' => 'required|string',
+            'placedAssets.*.row' => 'required|integer|min:0',
+            'placedAssets.*.col' => 'required|integer|min:0',
+            'placedAssets.*.width' => 'required|integer|min:1',
+            'placedAssets.*.height' => 'required|integer|min:1',
+            'placedAssets.*.rotation' => 'required|integer',
+        ]);
 
-    $design = Design::create([
-        'rows' => $data['rows'],
-        'cols' => $data['cols'],
-        'background_image' => $data['backgroundImage'] ?? null,
-        'placed_assets' => $data['placedAssets'],
+        $design = Design::create([
+            'rows' => $data['rows'],
+            'cols' => $data['cols'],
+            'background_image' => $data['backgroundImage'] ?? null,
+            'placed_assets' => $data['placedAssets'],
 
-        'class_id' => $data['class_id'] ?? null,
-        'student_name' => $data['student_name'] ?? null,
-    ]);
+            'class_id' => $data['class_id'] ?? null,
+            'student_name' => $data['student_name'] ?? null,
+        ]);
 
-    return response()->json([
-        'success' => true,
-        'id' => $design->id,
-        'design' => $design,
-    ], 201);
-}
 
+        $design->load('schoolClass');
+
+        return response()->json([
+            'success' => true,
+            'id' => $design->id,
+            'design' => $design,
+        ], 201);
+    }
 
     public function show(Design $design)
     {
-        return response()->json($design);
+        return response()->json(
+            $design->load('schoolClass')
+        );
     }
 
     public function storeFeedback(Request $request, $id)
@@ -72,8 +75,4 @@ class DesignController extends Controller
             'feedback' => $design->feedback
         ]);
     }
-
-
-
-
 }

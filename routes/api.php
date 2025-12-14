@@ -21,16 +21,14 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth:sanctum');
 
 
-// ---- CLASSES + CODES (TEACHER ONLY) ----
-Route::middleware('auth:sanctum')->group(function () {
-    // classes CRUD (for teacher)
-    Route::get('/classes', [ClassController::class, 'index']);
-    Route::post('/classes', [ClassController::class, 'store']);
-    Route::delete('/classes/{class}', [ClassController::class, 'destroy']);
+// ---- CLASSES + CODES (TEMP PUBLIC, NO SANCTUM) ----
+Route::get('/classes', [ClassController::class, 'index']);
+Route::post('/classes', [ClassController::class, 'store']);
+Route::delete('/classes/{class}', [ClassController::class, 'destroy']);
 
-    // generate a code for a class
-    Route::post('/classes/{class}/code', [ClassCodeController::class, 'generate']);
-});
+// generate a code for a class
+Route::post('/classes/{class}/code', [ClassCodeController::class, 'generate']);
+
 
 // ---- STUDENT "LOGIN" (PUBLIC) ----
 Route::post('/student-session', [StudentSessionController::class, 'create']);
