@@ -10,12 +10,12 @@ class ClassCode extends Model
         'class_id',
         'code',
         'expires_at',
-        'used_at',        // ✅ add this if you add the column
+        'used_at',
     ];
 
     protected $casts = [
         'expires_at' => 'datetime',
-        'used_at'    => 'datetime', // ✅ add this if you add the column
+        'used_at'    => 'datetime',
     ];
 
     public function schoolClass()
