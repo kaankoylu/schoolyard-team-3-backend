@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Design extends Model
 {
@@ -20,12 +21,20 @@ class Design extends Model
         'cols',
         'background_image',
         'placed_assets',
+        'class_id',
+        'student_name',
+        'feedback',
         'layout_id',
         'user_id',
-         'feedback',
     ];
 
     protected $casts = [
         'placed_assets' => 'array',
     ];
+
+
+    public function schoolClass(): BelongsTo
+    {
+        return $this->belongsTo(SchoolClass::class, 'class_id');
+    }
 }
