@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DesignController;
 use App\Http\Controllers\Api\AssetController;
+use App\Http\Controllers\Api\ClassController;
+use App\Http\Controllers\Api\ClassCodeController;
+use App\Http\Controllers\Api\StudentSessionController;
+
 // ---- Simple connectivity test ----
 Route::get('/ping', function () {
     return response()->json(['message' => 'pong']);
@@ -15,6 +19,21 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth:sanctum');
+
+
+// ---- CLASSES + CODES (TEMP PUBLIC, NO SANCTUM) ----
+Route::get('/classes', [ClassController::class, 'index']);
+Route::post('/classes', [ClassController::class, 'store']);
+Route::delete('/classes/{class}', [ClassController::class, 'destroy']);
+
+// generate a code for a class
+Route::post('/classes/{class}/code', [ClassCodeController::class, 'generate']);
+
+
+// ---- STUDENT "LOGIN" (PUBLIC) ----
+Route::post('/student-session', [StudentSessionController::class, 'create']);
+
+
 
 // ---- Protected route that returns current user ----
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {

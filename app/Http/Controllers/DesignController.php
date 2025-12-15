@@ -7,26 +7,27 @@ use Illuminate\Http\Request;
 
 class DesignController extends Controller
 {
-
     public function index()
     {
-        // You can add pagination later; for now return all.
         return response()->json(
-            Design::orderBy('id', 'desc')->get()
+            Design::with('schoolClass')->orderBy('id', 'desc')->get()
         );
     }
 
     public function store(Request $request)
     {
-        // validate exactly what your Svelte grid sends
         $data = $request->validate([
             'rows' => 'required|integer|min:1',
             'cols' => 'required|integer|min:1',
             'backgroundImage' => 'nullable|string',
+
+            // ✅ matches your SchoolClass model table = 'classes'
+            'class_id' => 'nullable|integer|exists:classes,id',
+            'student_name' => 'nullable|string|max:255',
+
             'placedAssets' => 'required|array',
             'placedAssets.*.instanceId' => 'required|integer',
             'placedAssets.*.assetId' => 'required|integer|exists:assets,id',
-
             'placedAssets.*.label' => 'required|string',
             'placedAssets.*.row' => 'required|integer|min:0',
             'placedAssets.*.col' => 'required|integer|min:0',
@@ -35,13 +36,18 @@ class DesignController extends Controller
             'placedAssets.*.rotation' => 'required|integer',
         ]);
 
-        // adapt the field names to match your migration
         $design = Design::create([
             'rows' => $data['rows'],
             'cols' => $data['cols'],
             'background_image' => $data['backgroundImage'] ?? null,
             'placed_assets' => $data['placedAssets'],
+
+            'class_id' => $data['class_id'] ?? null,
+            'student_name' => $data['student_name'] ?? null,
         ]);
+
+
+        $design->load('schoolClass');
 
         return response()->json([
             'success' => true,
@@ -52,7 +58,9 @@ class DesignController extends Controller
 
     public function show(Design $design)
     {
-        return response()->json($design);
+        return response()->json(
+            $design->load('schoolClass')
+        );
     }
 
     public function storeFeedback(Request $request, $id)
@@ -67,8 +75,4 @@ class DesignController extends Controller
             'feedback' => $design->feedback
         ]);
     }
-
-
-
-
 }
