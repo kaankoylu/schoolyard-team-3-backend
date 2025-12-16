@@ -14,8 +14,14 @@ class DatabaseSeeder extends Seeder
         // Teacher
         $teacher = User::factory()->create([
             'name' => 'Test Teacher',
-            'email' => 'test@example.com',
+            'email' => 'test@example.comm',
         ]);
+
+        $teacher = User::factory()->create([
+            'name' => 'teacher2',
+            'email' => 'test2@example.comm',
+        ]);
+
 
         // Assets first
         $this->call([

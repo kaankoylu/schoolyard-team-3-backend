@@ -75,4 +75,20 @@ class DesignController extends Controller
             'feedback' => $design->feedback
         ]);
     }
+
+    public function grade(Request $request, Design $design)
+    {
+        $validated = $request->validate([
+            'grade' => ['required', 'integer', 'min:1', 'max:5'],
+        ]);
+
+        $design->update([
+            'grade' => $validated['grade'],
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'grade' => $design->grade,
+        ]);
+    }
 }

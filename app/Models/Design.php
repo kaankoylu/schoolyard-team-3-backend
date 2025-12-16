@@ -26,6 +26,7 @@ class Design extends Model
         'feedback',
         'layout_id',
         'user_id',
+        'grade',
     ];
 
     protected $casts = [
