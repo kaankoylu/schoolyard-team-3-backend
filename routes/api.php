@@ -60,3 +60,6 @@ Route::post('/assets', [AssetController::class, 'store']);
 Route::get('/assets/{asset}', [AssetController::class, 'show']);
 Route::patch('/assets/{asset}', [AssetController::class, 'update']);
 Route::delete('/assets/{asset}', [AssetController::class, 'destroy']);
+
+// For grading
+Route::post('/designs/{design}/grade', [DesignController::class, 'grade']);
