@@ -62,4 +62,4 @@ Route::patch('/assets/{asset}', [AssetController::class, 'update']);
 Route::delete('/assets/{asset}', [AssetController::class, 'destroy']);
 
 // For grading
-Route::post('/designs/{design}/grade', [DesignController::class, 'grade']);
+Route::post('/designs/{design}/grade', [DesignController::class, 'saveGrade']);

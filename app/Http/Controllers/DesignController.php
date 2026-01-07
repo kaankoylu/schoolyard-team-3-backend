@@ -76,18 +76,16 @@ class DesignController extends Controller
         ]);
     }
 
-    public function grade(Request $request, Design $design)
+    public function saveGrade(Request $request, Design $design)
     {
         $validated = $request->validate([
-            'grade' => ['required', 'integer', 'min:1', 'max:5'],
+            'grade' => 'required|integer|min:1|max:5',
         ]);
 
-        $design->update([
-            'grade' => $validated['grade'],
-        ]);
+        $design->grade = $validated['grade'];
+        $design->save();
 
         return response()->json([
-            'success' => true,
             'grade' => $design->grade,
         ]);
     }
