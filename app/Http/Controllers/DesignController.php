@@ -75,4 +75,18 @@ class DesignController extends Controller
             'feedback' => $design->feedback
         ]);
     }
+
+    public function saveGrade(Request $request, Design $design)
+    {
+        $validated = $request->validate([
+            'grade' => 'required|integer|min:1|max:5',
+        ]);
+
+        $design->grade = $validated['grade'];
+        $design->save();
+
+        return response()->json([
+            'grade' => $design->grade,
+        ]);
+    }
 }
