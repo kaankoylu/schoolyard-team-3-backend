@@ -46,8 +46,10 @@ Route::get('/classes', [ClassController::class, 'index']);
 Route::post('/classes', [ClassController::class, 'store']);
 Route::delete('/classes/{class}', [ClassController::class, 'destroy']);
 Route::post('/classes/{class}/code', [ClassCodeController::class, 'generate']);
+    Route::get('/class-codes/resolve', [ClassCodeController::class, 'resolve']);
 
 Route::post('/student-session', [StudentSessionController::class, 'create']);
+
 
 /*
 |--------------------------------------------------------------------------
