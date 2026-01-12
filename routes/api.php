@@ -60,7 +60,7 @@ Route::post('/student-session', [StudentSessionController::class, 'create']);
 Route::get('/designs', [DesignController::class, 'index']);
 Route::post('/designs', [DesignController::class, 'store']);
 Route::get('/designs/{design}', [DesignController::class, 'show']);
-Route::post('/designs/{id}/feedback', [DesignController::class, 'storeFeedback']);
+Route::post('/designs/{design}/feedback', [DesignController::class, 'storeFeedback']);
 
 // For grading
 Route::post('/designs/{design}/grade', [DesignController::class, 'saveGrade']);

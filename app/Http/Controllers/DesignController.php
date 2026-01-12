@@ -40,7 +40,7 @@ class DesignController extends Controller
             'cols' => 'required|integer|min:1',
             'backgroundImage' => 'nullable|string',
 
-            // ✅ matches your SchoolClass model table = 'classes'
+
             'class_id' => 'nullable|integer|exists:classes,id',
             'student_name' => 'nullable|string|max:255',
 
@@ -114,4 +114,20 @@ class DesignController extends Controller
             'grade' => $design->grade,
         ]);
     }
+
+    public function storeFeedback(Request $request, Design $design)
+{
+    $validated = $request->validate([
+        'text' => 'required|string|max:2000',
+    ]);
+
+    $design->feedback = $validated['text'];
+    $design->save();
+
+    return response()->json([
+        'feedback' => $design->feedback,
+        'design' => $design,
+    ]);
+}
+
 }
