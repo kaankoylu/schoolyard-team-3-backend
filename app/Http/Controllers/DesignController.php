@@ -4,15 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Design;
 use Illuminate\Http\Request;
-
+use App\Models\Asset;
 class DesignController extends Controller
 {
     public function index()
-    {
-        return response()->json(
-            Design::with('schoolClass')->orderBy('id', 'desc')->get()
-        );
-    }
+{
+    return response()->json(
+        Design::with('schoolClass')
+            ->orderBy('id', 'desc')
+            ->get()
+            ->map(function ($design) {
+                $design->placed_assets = collect($design->placed_assets)->map(function ($item) {
+                    $asset = \App\Models\Asset::find($item['assetId']);
+
+                    return array_merge($item, [
+                        'asset' => $asset ? [
+                            'label' => $asset->label,
+                            'image_url' => $asset->image_url,
+                            'width' => $asset->width,
+                            'height' => $asset->height,
+                        ] : null
+                    ]);
+                });
+
+                return $design;
+            })
+    );
+}
+
 
     public function store(Request $request)
     {
@@ -56,23 +75,43 @@ class DesignController extends Controller
         ], 201);
     }
 
+
+
     public function show(Design $design)
     {
-        return response()->json(
-            $design->load('schoolClass')
-        );
+        $design->load('schoolClass');
+
+        $placed = collect($design->placed_assets)->map(function ($item) {
+            $asset = Asset::find($item['assetId']);
+
+            return array_merge($item, [
+                'asset' => $asset ? [
+                    'id' => $asset->id,
+                    'label' => $asset->label,
+                    'image_url' => $asset->image_url,
+                    'width' => $asset->width,
+                    'height' => $asset->height,
+                ] : null
+            ]);
+        });
+
+        $design->placed_assets = $placed;
+
+        return response()->json($design);
     }
 
-    public function storeFeedback(Request $request, $id)
-    {
-        $design = Design::findOrFail($id);
 
-        $design->feedback = $request->input('text');
+    public function saveGrade(Request $request, Design $design)
+    {
+        $validated = $request->validate([
+            'grade' => 'required|integer|min:1|max:5',
+        ]);
+
+        $design->grade = $validated['grade'];
         $design->save();
 
         return response()->json([
-            'message' => 'Feedback saved',
-            'feedback' => $design->feedback
+            'grade' => $design->grade,
         ]);
     }
 }

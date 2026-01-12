@@ -16,6 +16,7 @@ class ClassCodeController extends Controller
             'expires_in_minutes' => 'nullable|integer|min:5|max:10080',
         ]);
 
+        // Only one active code per class
         ClassCode::where('class_id', $class->id)->delete();
 
         do {
@@ -33,5 +34,31 @@ class ClassCodeController extends Controller
         ]);
 
         return response()->json($row, 201);
+    }
+
+    // ✅ NEW: resolve class by code (used by student login)
+    public function resolve(Request $request)
+    {
+        $validated = $request->validate([
+            'code' => 'required|string|min:1|max:64'
+        ]);
+
+        $code = strtoupper(trim($validated['code']));
+
+        $row = ClassCode::where('code', $code)->first();
+
+        if (!$row) {
+            return response()->json(['message' => 'Invalid code.'], 404);
+        }
+
+        // expired?
+        if ($row->expires_at && now()->greaterThan($row->expires_at)) {
+            return response()->json(['message' => 'Code expired.'], 410);
+        }
+
+        return response()->json([
+            'class_id' => $row->class_id,
+            'expires_at' => $row->expires_at,
+        ]);
     }
 }
