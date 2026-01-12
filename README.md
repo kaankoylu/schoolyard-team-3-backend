@@ -1,59 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Project Overview
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a web application that helps teachers and students design a green school playground together. This web application consists of a design process integrated into an interactive game-like environment that helps engage students of all ages to design their future environment.
 
-## About Laravel
+The system comes with a full frontend and backend environment.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Frontend**
+The frontend is a SvelteKit application that provides the main user interface for both the teacher and the elementary school students.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Backend**
+THe backend uses Node/Express API responsible for managing the sessions, templates, the user roles, assets and the design submissions made by students
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+With thes components we form a working application rather than a conceptual prototype
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+# Goal
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The purpose of this tool is to support schools in creating greener, more engaging schoolyards by providing a structured, collaborative design environment. The system enables schools to:
 
-## Laravel Sponsors
+* Upload and/or select the schoolyard map used for the design exercise
+* Allow students to design yard layouts using drag-and-drop visual elements
+* Collect, store and manage student submissions
+* Compare, evaluate and combine designs for decision-making
+* Provide structure and inspiration throughout the design process
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+The result is a digital platform that supports collaboration, creativity and sustainability within education.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Core Features
 
-## Contributing
+## Teacher Functionality
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* Upload custom schoolyard templates
+* Generate temporary classroom login codes
+* Review, compare and analyze submitted student designs
+* Organize design competitions between groups
 
-## Code of Conduct
+## Student Functionality
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* Simple, visual design interface
+* Drag-and-drop components (plants, structures, play elements, etc.)
+* Guided interactions suitable for younger students
+* Text based introduction
 
-## Security Vulnerabilities
+## System-Level Features
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* Frontend implemented with SvelteKit
+* Backend API built on Node/Express
+* Unique API gateway 
+* Defined user roles (teacher and student)
+* Modular design engine prepared for future expansion
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Target Users
+
+* Teachers guiding schoolyard design projects
+* Students (approximately 7–12 years old) contributing creative ideas
+
+---
+
+# Sprint Background
+
+This project originated from a Design Sprint. The team performed:
+
+* User research and interviews with teachers and students
+* Competitive and inspirational analysis
+* Concept sketching and solution exploration
+* Prototyping using Figma and AI-assisted tools
+* User testing with students, teachers and a parent
+
+User testing results averaged **7.95/10**, validating the concept and guiding improvements.
+
+The current GitHub repository represents the implementation phase of the validated prototype.
