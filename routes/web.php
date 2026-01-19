@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 // ---- Web routes go here ----
 // If you want a homepage:
 Route::get('/', function () {
-    return view('welcome');
+    return response()->json(['ok' => true]);
 });
 
 // Breeze auth routes (keep if Breeze installed)
